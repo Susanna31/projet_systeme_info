@@ -1,0 +1,813 @@
+Non-terminaux inutiles dans la grammaire
+
+   If
+   $@1
+   $@2
+   Else
+
+
+Terminaux inutilisés dans la grammaire
+
+   tIF
+   tELSE
+   tWHILE
+   tCONST
+   tFLOAT_NUM
+   tSPACE
+   tET
+   tTAB
+   tENTREE
+
+
+Règles inutiles dans la grammaire
+
+   32 $@1: %empty
+
+   33 $@2: %empty
+
+   34 If: tIF tPG Expression $@1 tPD tACCG Instructions tACCD $@2 Else
+   35   | tIF tPG tINT_NUM tPD tACCG Instructions tACCD
+
+   36 Else: tELSE tACCG Instructions tACCD
+
+
+État 24 conflits: 1 réduction/réduction
+État 62 conflits: 5 décalage/réduction
+
+
+Grammaire
+
+    0 $accept: Main $end
+
+    1 Main: tMAIN tPG tPD Body
+    2     | %empty
+
+    3 Body: tACCG Declarations Instructions tACCD
+    4     | tACCG tACCD
+
+    5 Declarations: Declaration tPCOMA Declarations
+    6             | Declaration tPCOMA
+
+    7 Declaration: Type tNAME tEQUAL tINT_NUM
+    8            | Type tNAME tCOMA Declaration_else
+    9            | Type tNAME
+
+   10 Declaration_else: tNAME tCOMA Declaration_else
+   11                 | tNAME
+
+   12 Instructions: Instruction tPCOMA Instructions
+   13             | Instruction tPCOMA
+   14             | %empty
+
+   15 Instruction: Printf
+   16            | tNAME tEQUAL Expression
+
+   17 Printf: tPRINTF tPG tNAME tPD
+   18       | tPRINTF tPG tPD
+
+   19 Type: tINT
+   20     | tFLOAT
+
+   21 Expression: tNAME
+   22           | tINT_NUM
+   23           | tPG Expression tPD
+   24           | Expression tPLUS Expression
+   25           | Expression tSTAR Expression
+   26           | Expression tMOINS Expression
+   27           | Expression tSLASH Expression
+   28           | Comparaison
+
+   29 $@3: %empty
+
+   30 $@4: %empty
+
+   31 Comparaison: Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+error (256)
+tIF (258)
+tELSE (259)
+tWHILE (260)
+tMAIN (261) 1
+tACCG (262) 3 4
+tACCD (263) 3 4
+tPRINTF (264) 17 18
+tPG (265) 1 17 18 23
+tPD (266) 1 17 18 23
+tCONST (267)
+tINT (268) 19
+tFLOAT (269) 20
+tINT_NUM (270) 7 22
+tFLOAT_NUM (271)
+tNAME (272) 7 8 9 10 11 16 17 21
+tPLUS (273) 24
+tMOINS (274) 26
+tSLASH (275) 27
+tSTAR (276) 25
+tEQUAL (277) 7 16 31
+tINF (278) 31
+tSUP (279) 31
+tSPACE (280)
+tCOMA (281) 8 10
+tET (282)
+tPCOMA (283) 5 6 12 13
+tTAB (284)
+tENTREE (285)
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (31)
+    à gauche: 0
+Main (32)
+    à gauche: 1 2, à droite: 0
+Body (33)
+    à gauche: 3 4, à droite: 1
+Declarations (34)
+    à gauche: 5 6, à droite: 3 5
+Declaration (35)
+    à gauche: 7 8 9, à droite: 5 6
+Declaration_else (36)
+    à gauche: 10 11, à droite: 8 10
+Instructions (37)
+    à gauche: 12 13 14, à droite: 3 12
+Instruction (38)
+    à gauche: 15 16, à droite: 12 13
+Printf (39)
+    à gauche: 17 18, à droite: 15
+Type (40)
+    à gauche: 19 20, à droite: 7 8 9
+Expression (41)
+    à gauche: 21 22 23 24 25 26 27 28, à droite: 16 23 24 25 26 27
+    31
+Comparaison (42)
+    à gauche: 31, à droite: 28
+$@3 (43)
+    à gauche: 29, à droite: 31
+$@4 (44)
+    à gauche: 30, à droite: 31
+
+
+État 0
+
+    0 $accept: . Main $end
+
+    tMAIN  décalage et aller à l'état 1
+
+    $défaut  réduction par utilisation de la règle 2 (Main)
+
+    Main  aller à l'état 2
+
+
+État 1
+
+    1 Main: tMAIN . tPG tPD Body
+
+    tPG  décalage et aller à l'état 3
+
+
+État 2
+
+    0 $accept: Main . $end
+
+    $end  décalage et aller à l'état 4
+
+
+État 3
+
+    1 Main: tMAIN tPG . tPD Body
+
+    tPD  décalage et aller à l'état 5
+
+
+État 4
+
+    0 $accept: Main $end .
+
+    $défaut  accepter
+
+
+État 5
+
+    1 Main: tMAIN tPG tPD . Body
+
+    tACCG  décalage et aller à l'état 6
+
+    Body  aller à l'état 7
+
+
+État 6
+
+    3 Body: tACCG . Declarations Instructions tACCD
+    4     | tACCG . tACCD
+
+    tACCD   décalage et aller à l'état 8
+    tINT    décalage et aller à l'état 9
+    tFLOAT  décalage et aller à l'état 10
+
+    Declarations  aller à l'état 11
+    Declaration   aller à l'état 12
+    Type          aller à l'état 13
+
+
+État 7
+
+    1 Main: tMAIN tPG tPD Body .
+
+    $défaut  réduction par utilisation de la règle 1 (Main)
+
+
+État 8
+
+    4 Body: tACCG tACCD .
+
+    $défaut  réduction par utilisation de la règle 4 (Body)
+
+
+État 9
+
+   19 Type: tINT .
+
+    $défaut  réduction par utilisation de la règle 19 (Type)
+
+
+État 10
+
+   20 Type: tFLOAT .
+
+    $défaut  réduction par utilisation de la règle 20 (Type)
+
+
+État 11
+
+    3 Body: tACCG Declarations . Instructions tACCD
+
+    tPRINTF  décalage et aller à l'état 14
+    tNAME    décalage et aller à l'état 15
+
+    $défaut  réduction par utilisation de la règle 14 (Instructions)
+
+    Instructions  aller à l'état 16
+    Instruction   aller à l'état 17
+    Printf        aller à l'état 18
+
+
+État 12
+
+    5 Declarations: Declaration . tPCOMA Declarations
+    6             | Declaration . tPCOMA
+
+    tPCOMA  décalage et aller à l'état 19
+
+
+État 13
+
+    7 Declaration: Type . tNAME tEQUAL tINT_NUM
+    8            | Type . tNAME tCOMA Declaration_else
+    9            | Type . tNAME
+
+    tNAME  décalage et aller à l'état 20
+
+
+État 14
+
+   17 Printf: tPRINTF . tPG tNAME tPD
+   18       | tPRINTF . tPG tPD
+
+    tPG  décalage et aller à l'état 21
+
+
+État 15
+
+   16 Instruction: tNAME . tEQUAL Expression
+
+    tEQUAL  décalage et aller à l'état 22
+
+
+État 16
+
+    3 Body: tACCG Declarations Instructions . tACCD
+
+    tACCD  décalage et aller à l'état 23
+
+
+État 17
+
+   12 Instructions: Instruction . tPCOMA Instructions
+   13             | Instruction . tPCOMA
+
+    tPCOMA  décalage et aller à l'état 24
+
+
+État 18
+
+   15 Instruction: Printf .
+
+    $défaut  réduction par utilisation de la règle 15 (Instruction)
+
+
+État 19
+
+    5 Declarations: Declaration tPCOMA . Declarations
+    6             | Declaration tPCOMA .
+
+    tINT    décalage et aller à l'état 9
+    tFLOAT  décalage et aller à l'état 10
+
+    $défaut  réduction par utilisation de la règle 6 (Declarations)
+
+    Declarations  aller à l'état 25
+    Declaration   aller à l'état 12
+    Type          aller à l'état 13
+
+
+État 20
+
+    7 Declaration: Type tNAME . tEQUAL tINT_NUM
+    8            | Type tNAME . tCOMA Declaration_else
+    9            | Type tNAME .
+
+    tEQUAL  décalage et aller à l'état 26
+    tCOMA   décalage et aller à l'état 27
+
+    $défaut  réduction par utilisation de la règle 9 (Declaration)
+
+
+État 21
+
+   17 Printf: tPRINTF tPG . tNAME tPD
+   18       | tPRINTF tPG . tPD
+
+    tPD    décalage et aller à l'état 28
+    tNAME  décalage et aller à l'état 29
+
+
+État 22
+
+   16 Instruction: tNAME tEQUAL . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 33
+    Comparaison  aller à l'état 34
+
+
+État 23
+
+    3 Body: tACCG Declarations Instructions tACCD .
+
+    $défaut  réduction par utilisation de la règle 3 (Body)
+
+
+État 24
+
+   12 Instructions: Instruction tPCOMA . Instructions
+   13             | Instruction tPCOMA .
+
+    tPRINTF  décalage et aller à l'état 14
+    tNAME    décalage et aller à l'état 15
+
+    tACCD     réduction par utilisation de la règle 13 (Instructions)
+    tACCD     [réduction par utilisation de la règle 14 (Instructions)]
+    $défaut  réduction par utilisation de la règle 13 (Instructions)
+
+    Instructions  aller à l'état 35
+    Instruction   aller à l'état 17
+    Printf        aller à l'état 18
+
+
+État 25
+
+    5 Declarations: Declaration tPCOMA Declarations .
+
+    $défaut  réduction par utilisation de la règle 5 (Declarations)
+
+
+État 26
+
+    7 Declaration: Type tNAME tEQUAL . tINT_NUM
+
+    tINT_NUM  décalage et aller à l'état 36
+
+
+État 27
+
+    8 Declaration: Type tNAME tCOMA . Declaration_else
+
+    tNAME  décalage et aller à l'état 37
+
+    Declaration_else  aller à l'état 38
+
+
+État 28
+
+   18 Printf: tPRINTF tPG tPD .
+
+    $défaut  réduction par utilisation de la règle 18 (Printf)
+
+
+État 29
+
+   17 Printf: tPRINTF tPG tNAME . tPD
+
+    tPD  décalage et aller à l'état 39
+
+
+État 30
+
+   23 Expression: tPG . Expression tPD
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 40
+    Comparaison  aller à l'état 34
+
+
+État 31
+
+   22 Expression: tINT_NUM .
+
+    $défaut  réduction par utilisation de la règle 22 (Expression)
+
+
+État 32
+
+   21 Expression: tNAME .
+
+    $défaut  réduction par utilisation de la règle 21 (Expression)
+
+
+État 33
+
+   16 Instruction: tNAME tEQUAL Expression .
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 16 (Instruction)
+
+
+État 34
+
+   28 Expression: Comparaison .
+
+    $défaut  réduction par utilisation de la règle 28 (Expression)
+
+
+État 35
+
+   12 Instructions: Instruction tPCOMA Instructions .
+
+    $défaut  réduction par utilisation de la règle 12 (Instructions)
+
+
+État 36
+
+    7 Declaration: Type tNAME tEQUAL tINT_NUM .
+
+    $défaut  réduction par utilisation de la règle 7 (Declaration)
+
+
+État 37
+
+   10 Declaration_else: tNAME . tCOMA Declaration_else
+   11                 | tNAME .
+
+    tCOMA  décalage et aller à l'état 46
+
+    $défaut  réduction par utilisation de la règle 11 (Declaration_else)
+
+
+État 38
+
+    8 Declaration: Type tNAME tCOMA Declaration_else .
+
+    $défaut  réduction par utilisation de la règle 8 (Declaration)
+
+
+État 39
+
+   17 Printf: tPRINTF tPG tNAME tPD .
+
+    $défaut  réduction par utilisation de la règle 17 (Printf)
+
+
+État 40
+
+   23 Expression: tPG Expression . tPD
+   24           | Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tPD     décalage et aller à l'état 47
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+
+
+État 41
+
+   24 Expression: Expression tPLUS . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 48
+    Comparaison  aller à l'état 34
+
+
+État 42
+
+   26 Expression: Expression tMOINS . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 49
+    Comparaison  aller à l'état 34
+
+
+État 43
+
+   27 Expression: Expression tSLASH . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 50
+    Comparaison  aller à l'état 34
+
+
+État 44
+
+   25 Expression: Expression tSTAR . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 51
+    Comparaison  aller à l'état 34
+
+
+État 45
+
+   31 Comparaison: Expression tEQUAL . tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tEQUAL  décalage et aller à l'état 52
+
+
+État 46
+
+   10 Declaration_else: tNAME tCOMA . Declaration_else
+
+    tNAME  décalage et aller à l'état 37
+
+    Declaration_else  aller à l'état 53
+
+
+État 47
+
+   23 Expression: tPG Expression tPD .
+
+    $défaut  réduction par utilisation de la règle 23 (Expression)
+
+
+État 48
+
+   24 Expression: Expression . tPLUS Expression
+   24           | Expression tPLUS Expression .
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+
+    $défaut  réduction par utilisation de la règle 24 (Expression)
+
+
+État 49
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   26           | Expression tMOINS Expression .
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+
+    $défaut  réduction par utilisation de la règle 26 (Expression)
+
+
+État 50
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   27           | Expression tSLASH Expression .
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    $défaut  réduction par utilisation de la règle 27 (Expression)
+
+
+État 51
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   25           | Expression tSTAR Expression .
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    $défaut  réduction par utilisation de la règle 25 (Expression)
+
+
+État 52
+
+   31 Comparaison: Expression tEQUAL tEQUAL . Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 54
+    Comparaison  aller à l'état 34
+
+
+État 53
+
+   10 Declaration_else: tNAME tCOMA Declaration_else .
+
+    $défaut  réduction par utilisation de la règle 10 (Declaration_else)
+
+
+État 54
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+   31            | Expression tEQUAL tEQUAL Expression . $@3 Expression tINF Expression $@4 Expression tSUP Expression
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 29 ($@3)
+
+    $@3  aller à l'état 55
+
+
+État 55
+
+   31 Comparaison: Expression tEQUAL tEQUAL Expression $@3 . Expression tINF Expression $@4 Expression tSUP Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 56
+    Comparaison  aller à l'état 34
+
+
+État 56
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+   31            | Expression tEQUAL tEQUAL Expression $@3 Expression . tINF Expression $@4 Expression tSUP Expression
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+    tINF    décalage et aller à l'état 57
+
+
+État 57
+
+   31 Comparaison: Expression tEQUAL tEQUAL Expression $@3 Expression tINF . Expression $@4 Expression tSUP Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 58
+    Comparaison  aller à l'état 34
+
+
+État 58
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+   31            | Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression . $@4 Expression tSUP Expression
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+
+    $défaut  réduction par utilisation de la règle 30 ($@4)
+
+    $@4  aller à l'état 59
+
+
+État 59
+
+   31 Comparaison: Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 . Expression tSUP Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 60
+    Comparaison  aller à l'état 34
+
+
+État 60
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+   31            | Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression . tSUP Expression
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+    tSUP    décalage et aller à l'état 61
+
+
+État 61
+
+   31 Comparaison: Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP . Expression
+
+    tPG       décalage et aller à l'état 30
+    tINT_NUM  décalage et aller à l'état 31
+    tNAME     décalage et aller à l'état 32
+
+    Expression   aller à l'état 62
+    Comparaison  aller à l'état 34
+
+
+État 62
+
+   24 Expression: Expression . tPLUS Expression
+   25           | Expression . tSTAR Expression
+   26           | Expression . tMOINS Expression
+   27           | Expression . tSLASH Expression
+   31 Comparaison: Expression . tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression
+   31            | Expression tEQUAL tEQUAL Expression $@3 Expression tINF Expression $@4 Expression tSUP Expression .
+
+    tPLUS   décalage et aller à l'état 41
+    tMOINS  décalage et aller à l'état 42
+    tSLASH  décalage et aller à l'état 43
+    tSTAR   décalage et aller à l'état 44
+    tEQUAL  décalage et aller à l'état 45
+
+    tPLUS     [réduction par utilisation de la règle 31 (Comparaison)]
+    tMOINS    [réduction par utilisation de la règle 31 (Comparaison)]
+    tSLASH    [réduction par utilisation de la règle 31 (Comparaison)]
+    tSTAR     [réduction par utilisation de la règle 31 (Comparaison)]
+    tEQUAL    [réduction par utilisation de la règle 31 (Comparaison)]
+    $défaut  réduction par utilisation de la règle 31 (Comparaison)
